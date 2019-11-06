@@ -28,4 +28,5 @@ if __name__ == "__main__":
     source_text = 'harry_potterb1.txt'
     text = histogram.open_file(source_text)
     histogram_text = histogram.histogram_dictionary(text)
-    sample_by_frequency(histogram_text)
+    word = sample_by_frequency(histogram_text)
+    print(word)
