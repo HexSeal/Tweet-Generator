@@ -20,6 +20,9 @@ class Dictogram(dict):
 
     def add_count(self, word, count=1):
         """Increase frequency count of given word by given count amount."""
+        for _ in count:
+            word_list.append(word)
+        return word_list
         # TODO: Increase word frequency by count
 
     def frequency(self, word):
