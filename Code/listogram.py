@@ -3,7 +3,6 @@
 from __future__ import division, print_function  # Python 2 and 3 compatibility
 import random
 
-
 class Listogram(list):
     """Listogram is a histogram implemented as a subclass of the list type."""
 
@@ -20,27 +19,52 @@ class Listogram(list):
 
     def add_count(self, word, count=1):
         """Increase frequency count of given word by given count amount."""
-        # TODO: Increase word frequency by count
-        for _ in count:
-            
-
+        in_list = False
+        for index in range(len(self)):
+            if self[index][0] == word:
+                self[index][1] += count
+                in_list = True
+                break
+        if not in_list:
+            self.append([word, count])
+            self.types += 1
+        self.tokens += count
+                
     def frequency(self, word):
         """Return frequency count of given word, or 0 if word is not found."""
-        # TODO: Retrieve word frequency count
+        for index in range(len(self)):
+            if self[index][0] == word:
+                return self[index][1]
+        return 0
 
     def __contains__(self, word):
         """Return boolean indicating if given word is in this histogram."""
-        # TODO: Check if word is in this histogram
+        for items in self:
+            if items[0] == word:
+                return True
+        return False
 
     def index_of(self, target):
         """Return the index of entry containing given target word if found in
         this histogram, or None if target word is not found."""
-        # TODO: Implement linear search to find index of entry with target word
+        for index in range(len(self)-1):
+            if self[index][0] == target:
+                return index
+            return None
 
     def sample(self):
         """Return a word from this histogram, randomly sampled by weighting
         each word's probability of being chosen by its observed frequency."""
-        # TODO: Randomly choose a word based on its frequency in this histogram
+        total = self.tokens
+        sum_prob = 0
+        lucky_number = random.random()
+        for item in self:
+            key = item[0]
+            prob = item[1]/total
+            if lucky_number > sum_prob and lucky_number <= sum_prob + prob:
+                return key
+            sum_prob += prob
+
 
 
 def print_histogram(word_list):

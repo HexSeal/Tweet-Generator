@@ -9,12 +9,11 @@ def stripWordPunctuation(word):
     return word.strip("&.,()<>\"}{'~?!;*:[]-+/&—\n ")
 
 def open_file(source_text):
-    
     #open and read file 
     f = open(source_text, 'r')
     lines = f.read().split()
+
     #split each word to be seperate 
-    
     for line in lines:
         line = stripWordPunctuation(line)
 
@@ -35,23 +34,34 @@ def histogram_dictionary(source_text):
             histogram[text] += 1
         else:
             histogram[text] = 1
-    print(histogram)
+    # print(histogram)
     return histogram
 
-def unique_words(histogram):
-    unique_words = []
-    for word in histogram:
-        if word not in unique_words:
-            unique_words.append(word)
-    return unique_words
+def unique_word(hist):
+    """ counts number of unique words in a histogram"""
+    return len(hist.keys())
 
-def frequency(word, histogram):
-    frequency = 0
-    for _ in histogram:
-        if _ == word:
-            frequency += 1
-    return frequency
+def frequency(word, hist):
+    """ gives the frequency of word in the histogram"""
+    if word.lower() in hist.keys():
+        return hist[word.lower()]
+    else:
+        return 0
 
+def read_hist(f):
+    """Reads a histogram type file into a dictionary """
+    lines = f.readlines()
+    histogram = {}
+    for line in lines:
+        line = line.split()
+        histogram[line[0]] = line[1]
+    return histogram
+
+def write_hist(file_name, histogram):
+    """ writes a histogram to a file"""
+    with open(file_name, "w+") as f:
+        for key in histogram.keys():
+            f.write(f"{key} {hist[key]}\n")
 
 # Attempt at optimization, trying to search by first letter so the code doesn't have to analyze every word
     # for _ in histogram:
@@ -63,10 +73,12 @@ def frequency(word, histogram):
     #         continue
 
 if __name__ == "__main__":
-    source_text = 'harry_potterb1.txt'
-    histogram = histogram_dictionary(source_text)
-    text = open_file(source_text)
-    histogram_dictionary(text)
+    open_file("harry_potterb1.txt")
+    with open("harry_potterb1.txt", 'r') as f:
+        words = f.read().split()
+        hist = histogram_dictionary(words)
+        freq = list(hist)
+    write_hist("hpb1_hist.txt", hist)
 
 
     # Extra functions for different data structures, helped by github.com/anikamorris
