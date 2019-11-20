@@ -1,28 +1,16 @@
 from pprint import pprint
 import sys
 import random
+import re
 
 # histogram = {'one': 1, 'blue': 1, 'two': 1, 'fish': 4, 'red': 1}
 
-# Helped by github.com/ysawiris
-def stripWordPunctuation(word):
-    return word.strip("&.,()<>\"}{'~?!;*:[]-+/&—\n ")
+def open_file(file):
+    with open(file, "r") as f:
+        words = f.read().split()
+    words = [re.sub('[^A-Za-z]+', '', word).lower() for word in words]
 
-def open_file(source_text):
-    #open and read file 
-    f = open(source_text, 'r')
-    lines = f.read().split()
-
-    #split each word to be seperate 
-    for line in lines:
-        line = stripWordPunctuation(line)
-
-    f.close()
-
-    #print(lines)
-    #print(line)
-
-    return lines
+    return words
 
 def histogram_dictionary(source_text):
     #define our histogram 
@@ -75,6 +63,7 @@ def write_hist(file_name, histogram):
 if __name__ == "__main__":
     open_file("harry_potterb1.txt")
     with open("harry_potterb1.txt", 'r') as f:
+        
         words = f.read().split()
         hist = histogram_dictionary(words)
         freq = list(hist)

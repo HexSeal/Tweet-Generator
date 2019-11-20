@@ -1,11 +1,11 @@
-import histogram
+from histogram import histogram_dictionary
 import sys
 import random
 
 # Helped by https://github.com/sprajjwal  
 
 # Helper function for getting the count number of objects in the histogram
-def word_sampler(histogram):
+def sample(histogram):
     """Takes a histogram and returns a word based of its frequency"""
     count = 0
     count += sum(histogram.values())
@@ -17,23 +17,38 @@ def word_sampler(histogram):
             return key
         sum_prob += prob
 
-def test_sampler(hist):
-    """ tests sampler by running it 10000 times, uncomment line 32 for this"""
+def sentence_creator(histogram, num_words):
+    """ tests sampler by running it 10000 times, uncomment line 36 for this"""
+    words = []
+    sentence = []
+    for _ in range(0, num_words):
+        words.append(sample(histogram))
+    hist = histogram_dictionary(words)
+    for item in hist.keys():
+        sentence.append(item)
+    sentence_str = " ".join(sentence)
+    return sentence_str #sentence
+
+
+def test_sampler(histogram):
+    """ tests sampler by running it 10000 times, uncomment line 36 for this"""
     test_words = []
     for _ in range(10000):
-        test_words.append(word_sampler(hist))
-    test_hist = histogram.histogram_dictionary(test_words)
+        test_words.append(sample(histogram))
+    test_hist = histogram_dictionary(test_words)
     for item in test_hist.keys():
         print(f"{item}: {test_hist[item]}")
 
 if __name__ == "__main__":
-    # file = sys.argv[1:]
-    f = open('hpb1_hist.txt')
-    words = f.read().split("\n")
-    hist = histogram.histogram_dictionary(words)
-    final_word = word_sampler(hist)
-    print(final_word)
-    # test_sampler(hist)
+    # file = sys.argv[:1]
+    # num_words = sys.argv[:1]
+    num_words = 8
 
-    
-    #print(word_sampler(hist))
+    f = open('harry_potterb1.txt')
+    words = f.read().split()
+    hist = histogram_dictionary(words)
+    print(sentence_creator(hist, num_words))
+
+# Tests
+    # print(test_sampler(hist, num_words))
+    # print(word_sampler(hist))
