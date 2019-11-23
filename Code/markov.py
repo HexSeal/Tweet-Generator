@@ -1,7 +1,7 @@
-from dictogram import Dictogram, read_file
+from dictogram import Dictogram
 import random
 
-
+# Helped by Jon Infante
 def next_chain(word_list, new_word):
     '''If a word is found and equals next_word, append the next word in the list.
     Then create a new histogram with the list of following words.
