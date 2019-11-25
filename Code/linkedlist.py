@@ -64,7 +64,7 @@ class LinkedList(object):
 
     def append(self, item):
         """Insert the given item at the tail of this linked list.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        TODO: Running time: O(1), only needs to find the tail and add itself after that and call the tail pointer to it."""
         node = Node(item)
         if self.tail:
             self.tail.next = node
@@ -75,7 +75,7 @@ class LinkedList(object):
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list.
-        TODO: Running time: O(???) Why and under what conditions?"""
+        TODO: Running time: O(1) because no matter what, it only needs to run once to prepend a node."""
         node = Node(item)
         if not self.is_empty(): #If there are nodes
             node.next = self.head
@@ -85,12 +85,13 @@ class LinkedList(object):
 
     def find(self, quality):
         """Return an item from this linked list satisfying the given quality.
-        TODO: Best case running time: O(???) Why and under what conditions?
-        TODO: Worst case running time: O(???) Why and under what conditions?"""
+        TODO: Best Case: O(1) because the first node could possess the quality
+        TODO: Worst case running time: O(n) because it might have to run until the last node is checked and the quality returned/analyzed"""
         if not self.is_empty(): #If there are nodes
             current_node = self.head
-            while current_node is not None:
-                if quality(current_node.data) is True:
+            while current_node is not None: # While there's still nodes to become the current node
+                # Makes sure the data is valid
+                if quality(current_node.data) is True: # Checks if the node's data possesses the quality
                     return current_node.data
                 else:
                     current_node = current_node.next
@@ -107,14 +108,14 @@ class LinkedList(object):
         current_node = self.head
         is_found = False
         if self.is_empty(): #If there are no nodes
-            raise ValueError('Item not found: {}'.format(item))
+            raise ValueError('Error: word not found: {}'.format(item))
 
         elif self.head == self.tail: #If there is only one node
             if current_node.data == item:
                 self.head = None
                 self.tail = None
             else:
-                raise ValueError('Item not found: {}'.format(item))
+                raise ValueError('Error: word not found: {}'.format(item))
 
         else:
             while current_node is not None:
@@ -130,7 +131,7 @@ class LinkedList(object):
                 previous_node = current_node
                 current_node = current_node.next
             if is_found is False:
-                raise ValueError('Item not found: {}'.format(item))
+                raise ValueError('Error: word not found: {}'.format(item))
 
 
 def test_linked_list():

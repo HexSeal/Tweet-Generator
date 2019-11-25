@@ -49,7 +49,7 @@ def write_hist(file_name, histogram):
     """ writes a histogram to a file"""
     with open(file_name, "w+") as f:
         for key in histogram.keys():
-            f.write(f"{key} {hist[key]}\n")
+            f.write(f"{key} {histogram[key]}\n")
 
 # Attempt at optimization, trying to search by first letter so the code doesn't have to analyze every word
     # for _ in histogram:
@@ -59,15 +59,20 @@ def write_hist(file_name, histogram):
     #             frequency += 1
     #     else: 
     #         continue
-
-if __name__ == "__main__":
-    open_file("harry_potterb1.txt")
-    with open("harry_potterb1.txt", 'r') as f:
+def run(word_doc):
+    open_file(word_doc)
+    with open(word_doc, 'r') as f:
         
         words = f.read().split()
         hist = histogram_dictionary(words)
         freq = list(hist)
-    write_hist("hpb1_hist.txt", hist)
+    write_hist("text_hist.txt", hist)
+    return hist
+
+if __name__ == "__main__":
+    word_doc = "harry_potterb1.txt"
+    file = run(word_doc)
+    print(file)
 
 
     # Extra functions for different data structures, helped by github.com/anikamorris
