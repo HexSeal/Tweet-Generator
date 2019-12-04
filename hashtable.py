@@ -80,6 +80,7 @@ class HashTable(object):
         # TODO: If found, return value associated with given key
         # TODO: Otherwise, raise error to tell user get failed
         # Hint: raise KeyError('Key not found: {}'.format(key))
+        
 
     def set(self, key, value):
         """Insert or update the given key with its associated value.
