@@ -133,14 +133,20 @@ class LinkedList(object):
                 raise ValueError('Error: word not found: {}'.format(item))
 
     def replace(self, item, new_data):
-    """Replace an item with a new item"""
-    # Set the first node as the head
-    current_node = self.head
+        """Replace a item in our linked-list with a new item"""
+        # Best and worst case are both O(n).
 
-    while current_node is not none:
-        if current_node.data == item:
-            
+        #set current node to the head of list
+        current_node = self.head
 
+        # Iterate through the linked list until the node data is equal to the item
+        while current_node is not None:
+            if current_node.data == item:
+                current_node.data = new_data
+                return None
+            current_node = current_node.next
+        # Raise error if no item is found  
+        raise ValueError(f'Item not found: {item}')
 
 def test_linked_list():
     ll = LinkedList()

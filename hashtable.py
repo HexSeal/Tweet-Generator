@@ -47,7 +47,6 @@ class HashTable(object):
     def items(self):
         """Return a list of all items (key-value pairs) in this hash table.
         TODO: Running time: O(???) Why and under what conditions?"""
-        # Collect all pairs of key-value entries in each bucket
         all_items = []
         for bucket in self.buckets:
             all_items.extend(bucket.items())
@@ -95,16 +94,21 @@ class HashTable(object):
             if other_key == key:
                 specific_bucket.replace((key, other_value), (key, value))
                 return None
-        specific_bucket.append(key, value)
+        specific_bucket.append((key, value))
             
     def delete(self, key):
         """Delete the given key from this hash table, or raise KeyError.
         TODO: Running time: O(???) Why and under what conditions?"""
-        # TODO: Find bucket where given key belongs
-        # TODO: Check if key-value entry exists in bucket
-        # TODO: If found, delete entry associated with given key
-        # TODO: Otherwise, raise error to tell user delete failed
+        specific_bucket = self.buckets[self._bucket_index(key)]
+        # Using delete from linkedlist. Bless reusable code.
+        for other_key, value in specific_bucket.items():
+            if other_key == key:
+                specific_bucket.delete((other_key, value))
+                return None
         raise KeyError('Key not found: {}'.format(key))
+
+
+
 
 def test_hash_table():
     ht = HashTable()
