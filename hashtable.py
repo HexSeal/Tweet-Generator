@@ -9,6 +9,7 @@ class HashTable(object):
         """Initialize this hash table with the given initial size."""
         # Create a new list (used as fixed-size array) of empty linked lists
         self.buckets = [LinkedList() for _ in range(init_size)]
+        self.size = 0
 
     def __str__(self):
         """Return a formatted string representation of this hash table."""
@@ -54,19 +55,15 @@ class HashTable(object):
 
     def length(self):
         """Return the number of key-value entries by traversing its buckets.
-        # Running time: Always O(n), because it goes through everything no matter what"""
-        count = 0
-        for bucket in self.buckets:
-            for key, value in bucket.items():
-                count += 1
+        # Running time: Always O(1), because we save the length of the hashtable"""
+        return self.size
 
     def contains(self, key):
         """Return True if this hash table contains the given key, or False.
         Running time: Best case: O(1), Worst case: 0(the average of L), or 0(n/b) if it has to go through every last bucket and key"""
-
         specific_bucket = self.buckets[self._bucket_index(key)]
 
-        for other_key, value in specific_bucket.items():
+        for other_key in specific_bucket.items():
             if other_key == key:
                 return True
             return False
@@ -93,7 +90,9 @@ class HashTable(object):
         for other_key, other_value in specific_bucket.items():
             if other_key == key:
                 specific_bucket.replace((key, other_value), (key, value))
-                return None
+                return
+            else:
+                self.size += 1
         specific_bucket.append((key, value))
             
     def delete(self, key):
@@ -103,12 +102,26 @@ class HashTable(object):
         # Using delete from linkedlist. Bless reusable code.
         for other_key, value in specific_bucket.items():
             if other_key == key:
-                specific_bucket.delete((other_key, value))
-                return None
+                specific_bucket.delete((other_key))
+                self.size -= 1
         raise KeyError('Key not found: {}'.format(key))
 
+    def iterate(self):
+        """Iterates through all the nodes available."""
+        for node in self.items():
+            yield node
 
+    def __setitem__(self, key, value):
+        self.set(key, value)
+    
+    def __getitem__(self, key):
+        return self.get(key)
 
+    def __contains__(self, key):
+        return self.contains(key)
+    
+    def __len__(self):
+        return self.size
 
 def test_hash_table():
     ht = HashTable()
@@ -139,7 +152,6 @@ def test_hash_table():
 
         print('contains(X): {}'.format(ht.contains('X')))
         print('length: {}'.format(ht.length()))
-
 
 if __name__ == '__main__':
     test_hash_table()

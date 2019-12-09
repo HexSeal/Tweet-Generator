@@ -12,6 +12,20 @@ class Node(object):
         """Return a string representation of this node."""
         return 'Node({!r})'.format(self.data)
 
+# Got from @github.com/liyaSileshi, better than my idea
+class llIterator:
+    def __init__(self, head):
+        self.curr = head
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        while self.curr != None:
+            item = self.curr.data
+            self.curr = self.curr.next
+            return item
+        raise StopIteration
 
 class LinkedList(object):
 
@@ -19,6 +33,7 @@ class LinkedList(object):
         """Initialize this linked list and append the given items, if any."""
         self.head = None  # First node
         self.tail = None  # Last node
+        self.size = 0
         # Append given items
         if items is not None:
             for item in items:
@@ -55,12 +70,13 @@ class LinkedList(object):
     def length(self):
         """Return the length of this linked list by traversing its nodes.
         Running time: O(n) because we are looping so it depends on how many objects are in the linked list"""
-        length = 0
-        this_node = self.head
-        while this_node != None:
-            this_node = this_node.next
-            length += 1
-        return length
+        # length = 0
+        # this_node = self.head
+        # while this_node != None:
+        #     this_node = this_node.next
+        #     length += 1
+        # return length
+        return self.size
 
     def append(self, item):
         """Insert the given item at the tail of this linked list.
@@ -71,6 +87,7 @@ class LinkedList(object):
         else:
             self.head = node
         self.tail = node
+        self.size += 1
         
 
     def prepend(self, item):
@@ -82,6 +99,7 @@ class LinkedList(object):
         else:
             self.tail = node
         self.head = node
+        self.size += 1
 
     def find(self, quality):
         """Return an item from this linked list satisfying the given quality.
@@ -147,6 +165,7 @@ class LinkedList(object):
             current_node = current_node.next
         # Raise error if no item is found  
         raise ValueError(f'Item not found: {item}')
+
 
 def test_linked_list():
     ll = LinkedList()

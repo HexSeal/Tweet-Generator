@@ -63,6 +63,7 @@ class HashTableTest(unittest.TestCase):
         assert ht.contains('V') is True
         assert ht.contains('X') is True
         assert ht.contains('A') is False
+        print(ht)
 
     def test_set_and_get(self):
         ht = HashTable()
