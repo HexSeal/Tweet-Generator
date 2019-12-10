@@ -1,6 +1,7 @@
 from dictogram import Dictogram
 from histogram import open_file, run
 import random
+import sys
 
 class SecondOrderChain(dict):
     def __init__(self, word_list=None, order = 1):
@@ -12,9 +13,11 @@ class SecondOrderChain(dict):
 
         # If there's words, start a chain
         if word_list:
-            self.word_walk(word_list, order)
+            self.link_chain(word_list, 3)
+            self['start'] = Dictogram([''])
+            self['end'] = Dictogram([''])
 
-    def word_walk(self, words, order):
+    def link_chain(self, words, order):
         for i in range(len(words) - order):
             # If the tuple is not in keys then create a new word tuple and add to the counters
             if tuple(words[i: i + order]) not in self.keys():
@@ -26,28 +29,30 @@ class SecondOrderChain(dict):
             self[key] = Dictogram(self[key])
 
     def get_text(self, path = 'harry_potterb1.txt'):
+        # Reuses open_file from histogram, grabs text
         text = open_file(path)
         return text 
 
-    # Got from @github.com/sprajjwal, very nice sampling and text formatting
     def sample(self, key):
         """gets a random word  that appears after key"""
         return self[key].sample()
 
-    def get_string(self, length=1):
-    # Returns a string of len based on markov's chain
-        start = random.choice(list(self.keys()))
-        string = list(start)
+    def word_walk(self, len=1):
+        # Start at a designated start word, create the list on that
+        start = random.choice(list(self.get('start')))
+        # Can't use string because it's Python syntax
+        strin = list(start)
         prev = start
-        for _ in range(length - self.order):
+        for _ in range(len - self.order):
             prev = self.sample(prev)
-            string.append(f"{prev[self.order-1]}")
-        string = ' '.join(string)
-        if string[len(string)-1] != '.':
-            string += "."
-        return string.capitalize()
+            strin.append(f"{prev[self.order-1]}")
+        strin = ' '.join(strin)
+        if strin[len(strin)-1] != '.':
+            strin += "."
+        return strin.capitalize()
 
 if __name__ == "__main__":
-    word_doc = "harry_potterb1.txt"
-    file = run(word_doc)
-    word_walk(file, 1)
+    word_list = SecondOrderChain.get_text("harry_potterb1.txt")
+    markov_chain = SecondOrderChain(word_list)
+
+    print(markov_chain.word_walk(10))

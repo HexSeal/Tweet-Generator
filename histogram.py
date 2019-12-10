@@ -64,7 +64,7 @@ def run(word_doc):
     with open(word_doc, 'r') as f:
         words = f.read().split()
         hist = histogram_dictionary(words)
-        freq = list(hist)
+        # freq = list(hist)
     write_hist("text_hist.txt", hist)
     return hist
 
