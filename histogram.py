@@ -62,7 +62,6 @@ def write_hist(file_name, histogram):
 def run(word_doc):
     open_file(word_doc)
     with open(word_doc, 'r') as f:
-        
         words = f.read().split()
         hist = histogram_dictionary(words)
         freq = list(hist)

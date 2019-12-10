@@ -126,14 +126,13 @@ class LinkedList(object):
         is_found = False
         if self.is_empty(): #If there are no nodes
             raise ValueError('Error: word not found: {}'.format(item))
-
         elif self.head == self.tail: #If there is only one node
             if current_node.data == item:
                 self.head = None
                 self.tail = None
+                self.size -= 1
             else:
                 raise ValueError('Error: word not found: {}'.format(item))
-
         else:
             while current_node is not None:
                 if current_node.data == item:
@@ -147,8 +146,9 @@ class LinkedList(object):
                         previous_node.next = current_node.next
                 previous_node = current_node
                 current_node = current_node.next
+            self.size -= 1
             if is_found is False:
-                raise ValueError('Error: word not found: {}'.format(item))
+                raise ValueError('Error: item not found: {}'.format(item))
 
     def replace(self, item, new_data):
         """Replace a item in our linked-list with a new item"""

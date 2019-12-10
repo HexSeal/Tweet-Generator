@@ -63,10 +63,10 @@ class HashTable(object):
         Running time: Best case: O(1), Worst case: 0(the average of L), or 0(n/b) if it has to go through every last bucket and key"""
         specific_bucket = self.buckets[self._bucket_index(key)]
 
-        for other_key in specific_bucket.items():
+        for other_key, other_value in specific_bucket.items():
             if other_key == key:
                 return True
-            return False
+        return False
 
     def get(self, key):
         """Return the value associated with the given key, or raise KeyError.
@@ -83,27 +83,28 @@ class HashTable(object):
     def set(self, key, value):
         """Insert or update the given key with its associated value.
         Running time: Best case: O(1), Average case: 0(the average of L), or 0(n/b)"""
-        # Define the bucket we're looking for 
+        # Define the bucket we're looking for
         specific_bucket = self.buckets[self._bucket_index(key)]
         # Helped by @Youssef-Sawiris
-        # iterate through all the buckets and find the one we want, and replace it with the new value using replace from linkedlist
+        # iterate through all the buckets and find the one we want, and
+        # replace it with the new value using replace from linkedlist
         for other_key, other_value in specific_bucket.items():
             if other_key == key:
-                specific_bucket.replace((key, other_value), (key, value))
+                specific_bucket.replace((other_key, other_value), (key, value))
                 return
-            else:
-                self.size += 1
         specific_bucket.append((key, value))
+        self.size += 1
             
     def delete(self, key):
         """Delete the given key from this hash table, or raise KeyError.
         Running time: Best case: O(1), Average case: 0(the average of L), or 0(n/b)"""
         specific_bucket = self.buckets[self._bucket_index(key)]
         # Using delete from linkedlist. Bless reusable code.
-        for other_key, value in specific_bucket.items():
+        for other_key, other_value in specific_bucket.items():
             if other_key == key:
-                specific_bucket.delete((other_key))
+                specific_bucket.delete((other_key, other_value))
                 self.size -= 1
+                return
         raise KeyError('Key not found: {}'.format(key))
 
     def iterate(self):
