@@ -9,6 +9,8 @@ verify_ssl = true
 flask = "*"
 pytest = "*"
 gunicorn = "*"
+requests = "*"
+requests-oauthlib = "*"
 
 [requires]
 python_version = "3.7"
