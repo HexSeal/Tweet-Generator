@@ -11,6 +11,8 @@ pytest = "*"
 gunicorn = "*"
 requests = "*"
 requests-oauthlib = "*"
+dotenv = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.7"
